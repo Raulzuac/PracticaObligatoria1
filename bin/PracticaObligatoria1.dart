@@ -1,3 +1,7 @@
+import 'modelo/consulta.dart';
+import 'modelo/paciente.dart';
+
 void main(List<String> args) {
-  print('Hola mundo');
+  final List<Paciente> cola = [];
+  final List<Consulta> consultas = [];
 }
