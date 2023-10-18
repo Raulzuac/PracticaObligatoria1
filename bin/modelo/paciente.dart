@@ -1,20 +1,27 @@
+import 'dart:convert';
+
+Paciente pacienteFromJson(String string)=>Paciente.fromJson(jsonDecode(string));
+
 class Paciente{
   late int numHistoria;
   late String dni;
   late String nombre;
   late String apellidos;
   late String sintomas;
-
-  Paciente(this.numHistoria,this.dni,this.nombre,this.apellidos,this.sintomas);
-
-  Paciente.noPaciente(){
-    numHistoria = 0;
-    dni='0';
-    nombre='No';
-    apellidos='hay paciente';
-    sintomas='Sin sintomas';
-  }
-
+  late int pos;
+  
+  
+  
+  Paciente(this.numHistoria,this.dni,this.nombre,this.apellidos,this.sintomas,this.pos);
+  
+  factory Paciente.fromJson(Map<String,dynamic> json)=>
+  Paciente(json['numhistoria'],
+   json['dni'], 
+   json['nombre'], 
+   json['apellidos'], 
+   json['sintomas'],
+   json['pos']);
+  
   @override
   String toString() {
     return '''
