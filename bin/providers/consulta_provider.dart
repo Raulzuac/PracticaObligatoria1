@@ -12,9 +12,8 @@ class Consulta_provider{
   Consulta_provider(){}
 
   final urlBase =
-      'https://consulta-3682d-default-rtdb.europe-west1.firebasedatabase.app/consulta';
+      'https://consulta-3682d-default-rtdb.europe-west1.firebasedatabase.app/';
   final consultas = '/consultas.json';
-  final medicos = '/medicos.json';
   final pacientes = '/pacientes.json';
 
 
@@ -22,7 +21,7 @@ class Consulta_provider{
     List<Consulta> listaConsultas = [];
     Map<String,dynamic> consultasMap = jsonDecode((await get(Uri.parse(urlBase+consultas))).body);
     consultasMap.forEach((clave, consulta) {
-        listaConsultas.add(Consulta(medico: Medico.fromJson(consulta['medico']), paciente: (consulta['paciente']==null?null:Paciente.fromJson(consulta['paciente'])), libre: consulta['libre']));
+        listaConsultas.add(Consulta(medico: Medico.fromJson(consulta['medico']), paciente: (consulta['paciente']==null?null:Paciente.fromJson(consulta['paciente'])), libre: consulta['libre'],id: consulta['id']));
      });
     return listaConsultas;
   }

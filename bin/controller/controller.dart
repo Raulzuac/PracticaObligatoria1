@@ -1,11 +1,15 @@
 
 import '../modelo/consulta.dart';
 import '../modelo/medico.dart';
+import '../modelo/paciente.dart';
 import '../providers/consulta_provider.dart';
 
-class controller {
+class Controller {
   
-  Controler() {}
+  List<Consulta> consultas;
+  List<Paciente> pacientes;
 
+  Controller(this.consultas,this.pacientes);
   
+
 }
