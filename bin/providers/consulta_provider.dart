@@ -115,7 +115,7 @@ class ConsultaProvider {
     }
     return listaPacientes;
   }
-
+  ///Inserta el paceinte que le pasas en la lista de pacientes curados
   Future<void> insertaPacienteCurado(Paciente paciente) async {
     await post(Uri.parse('$urlBase$curados'),
         body: jsonEncode(paciente.toJson()));

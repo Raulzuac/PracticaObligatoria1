@@ -1,6 +1,7 @@
 import 'package:intl/intl.dart';
-
+//Utilidades para los menús
 class Menus {
+  ///Gestiona el menú principal
   static String menuPrincipal(
       int consultasLibres, int pacientesCola, int pacientesCurados) {
     String fecha = DateFormat('dd/MM/yyyy HH:mm:ss').format(DateTime.now());

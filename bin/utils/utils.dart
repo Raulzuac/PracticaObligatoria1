@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:io';
-
+///Clases utils para utilidades
 class Utils {
+  ///Mensaje de espera
   static Future<void> mensajeDeEspera(String mensaje) async {
     stdout.write(mensaje);
     for (var i = 0; i < 3; i++) {
@@ -10,12 +11,14 @@ class Utils {
     }
     stdout.write("\n\n");
   }
-
+  ///Forma parte de el mensaje de espera
   static void pulseEnterContinuar() {
     stdout.writeln("Pulse enter para continuar...");
     stdin.readLineSync();
   }
 
+  ///Método que pide un string con un mensaje personalizado y filtra los caracteres
+  ///especiales
   static introduceString(String mensaje){
   String cadena="";
   do {

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 Medico medicoFromJson(String string) => Medico.fromJson(jsonDecode(string));
 
+///Clase médico
 class Medico {
   int id;
   String nombre;
@@ -14,12 +15,14 @@ class Medico {
   factory Medico.fromJson(Map<String, dynamic> json) =>
       Medico(json['id'], json['nombre'], json['especialidad']);
 
+  ///Método toJson, transforma el objeto en un json
   Map<String, dynamic> toJson() => {
         "especialidad": especialidad,
         "id": id,
         "nombre": nombre,
       };
-
+  
+  /// Método tostring para pintar el médico
   @override
   String toString() {
     return '''

@@ -1,6 +1,8 @@
 import 'medico.dart';
 import 'paciente.dart';
 
+
+///Clase consulta
 class Consulta {
   int id;
   bool libre;
@@ -23,6 +25,7 @@ class Consulta {
           : Paciente.fromJson(json['paciente'])),
       id: json['id']);
 
+  ///Método toJson, convcierte el objeto en un Json
   Map<String, dynamic> toJson() {
     return paciente == null
         ? {"id": id, "libre": libre, "medico": medico.toJson()}
@@ -33,7 +36,7 @@ class Consulta {
             "paciente": paciente!.toJson(),
           };
   }
-
+  ///Tostring para pintar la consulta
   @override
   String toString() {
     if (paciente != null) {

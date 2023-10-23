@@ -5,7 +5,10 @@ import 'utils/menu.dart';
 import 'utils/utils.dart';
 
 void main(List<String> args) async {
+  ///Comienzo de la aplciacion
+  ///Menú
   String opt = "";
+  ///Creacion del controlador
   Controller c = await nuevoController();
   do {
     //Menu de la app
@@ -35,7 +38,7 @@ void main(List<String> args) async {
     }
   } while (opt != "5");
 }
-
+///Pintar el estado actual de las consultas
 void verEstadoActualConsultas(Controller c) {
   print('Los datos de las consultas son: ');
   for (var consulta in c.consultas) {
@@ -43,7 +46,7 @@ void verEstadoActualConsultas(Controller c) {
   }
   Utils.pulseEnterContinuar();
 }
-
+///Pinta el estado actual de la cola
 void verLaColaEspera(Controller c) {
   if (c.getCola().isEmpty) {
     print('Actualmente no hay pacientes en cola.');
@@ -58,7 +61,7 @@ void verLaColaEspera(Controller c) {
   }
   Utils.pulseEnterContinuar();
 }
-
+///Libera la consulta que le pases
 Future<void> liberarConsulta(Controller c) async {
   stdout.write('Introduce el id de la consulta a liberar: ');
   String id = stdin.readLineSync() ?? '';
@@ -74,7 +77,7 @@ Future<void> liberarConsulta(Controller c) async {
   }
   Utils.pulseEnterContinuar();
 }
-
+///Maneja la peticion de datos del paciente al usuario y lo inserta en el sistema
 Future<void> admitirPaciente(Controller c) async {
   String dni = Utils.introduceString('Inserta el dni: ');
   String nombre = Utils.introduceString('Inserta el nombre: ');

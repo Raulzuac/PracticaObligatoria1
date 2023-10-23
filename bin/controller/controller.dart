@@ -4,6 +4,8 @@ import '../models/consulta.dart';
 import '../models/paciente.dart';
 import '../providers/consulta_provider.dart';
 
+
+///Método que crea el controlador con los datos de firebase
 Future<Controller> nuevoController() async {
   return Controller(
       await ConsultaProvider().getConsultas(),
@@ -11,13 +13,17 @@ Future<Controller> nuevoController() async {
       await ConsultaProvider().getPacientesCurados());
 }
 
+///Clase controlador
+///Controla el funcionamiento de la aplicación
 class Controller {
   late List<Consulta> consultas;
   late List<Paciente> pacientesCola;
   late List<Paciente> pacientesCurados;
 
+  ///Constructor de dart
   Controller(this.consultas, this.pacientesCola, this.pacientesCurados);
 
+  ///Método que crea e inserta el paciente para despues insertarlo en firebase
   Future<int> insertaPaciente(
       String dni, String nombre, String apellidos, String sintomas) async {
     Paciente p = Paciente("", generaNumHistoria(), dni, nombre, apellidos,
@@ -38,33 +44,34 @@ class Controller {
       return -1;
     }
   }
-
+  ///Devuelve la cola de pacientes
   List<Paciente> getCola() {
     return pacientesCola;
   }
-
+  ///Devuelve la lista de consultas
   List<Consulta> getConsulta() {
     return consultas;
   }
-
+  ///Método que genera el número de historia del paciente
   int generaNumHistoria() {
     int id = -1;
     bool correcto = false;
 
     while (!correcto) {
-      id = generarNumeroAleatorio();
-      if (esNumHistoriaUnico(id)) {
+      id = generarNumeroAleatorio();//Generamos el número aleatorio
+      if (esNumHistoriaUnico(id)) {//Comprobamos que no esté repetido
         correcto = true;
       }
     }
 
     return id;
   }
-
+  ///Método que genera un número aleatorio
   int generarNumeroAleatorio() {
     return Random().nextInt(10000);
   }
-
+  ///Método que comprueba si el numero que se le pasa esta ya usado por alguno 
+  ///de los pacientes del sistema esté donde esté
   bool esNumHistoriaUnico(int id) {
     return ((pacientesCola.isEmpty ||
             pacientesCola.any((paciente) => paciente.numHistoria != id)) &&
@@ -74,6 +81,8 @@ class Controller {
             consulta.paciente!.numHistoria != id)));
   }
 
+
+  // Antigüo método de generación del número de historia
   // int generaNumHistoria() {
   //   bool correcto = false;
   //   int id = -1;
@@ -91,31 +100,35 @@ class Controller {
   //   return id;
   // }
 
+  ///Devuelve el número de consultas libres
   int consultasLibres() {
     int resultado = 0;
     consultas.forEach((consulta) => {if (consulta.libre) resultado++});
     return resultado;
   }
 
+  ///Devuelve la primera consulta que esté libre
   Consulta firstConsultaLibre() =>
       consultas.firstWhere((consulta) => consulta.libre);
 
-  Future<bool> liberaConsulta(int idConsulta) async {
-    Consulta c = buscaConsulta(idConsulta);
-    if (c.libre) return false;
-    c.libre = true;
-    if (pacientesCola.isEmpty) {
-      await ConsultaProvider().limpiaConsulta(c);
-      c.paciente = null;
-    } else {
-      await ConsultaProvider().eliminaPaciente(c, pacientesCola.first);
-      c.paciente = pacientesCola.first;
-      pacientesCola.removeAt(0);
-      await ConsultaProvider().insertaPacienteConsulta(c);
-    }
-    return true;
-  }
+  /// Antigüo método que gestiona como se libera la consulta
+  // Future<bool> liberaConsulta(int idConsulta) async {
+  //   Consulta c = buscaConsulta(idConsulta);
+  //   if (c.libre) return false;///Comprobamos que la consutla que le hemos dado esta libre
+  //   c.libre = true;
+  //   if (pacientesCola.isEmpty) {//Si no hay ningun paciente
+  //     await ConsultaProvider().limpiaConsulta(c);
+  //     c.paciente = null;
+  //   } else {//Si hay algún paciente
+  //     await ConsultaProvider().eliminaPaciente(c, pacientesCola.first);
+  //     c.paciente = pacientesCola.first;
+  //     pacientesCola.removeAt(0);
+  //     await ConsultaProvider().insertaPacienteConsulta(c);
+  //   }
+  //   return true;
+  // }
 
+  ///Método que gestiona la salida de un paciente de la consulta
   Future<bool> saleConsulta(int idConsulta) async {
     Consulta c = buscaConsulta(idConsulta);
     if (c.libre) return false;
@@ -140,7 +153,7 @@ class Controller {
 
     return true;
   }
-
+  ///Devuelve la consulta con el id que se le pasa
   Consulta buscaConsulta(int idConsulta) {
     Consulta? consulta;
     for (var c in consultas) {
