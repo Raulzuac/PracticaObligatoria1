@@ -8,6 +8,7 @@ void main(List<String> args) async {
   ///Comienzo de la aplciacion
   ///Menú
   String opt = "";
+
   ///Creacion del controlador
   Controller c = await nuevoController();
   do {
@@ -38,6 +39,7 @@ void main(List<String> args) async {
     }
   } while (opt != "5");
 }
+
 ///Pintar el estado actual de las consultas
 void verEstadoActualConsultas(Controller c) {
   print('Los datos de las consultas son: ');
@@ -46,6 +48,7 @@ void verEstadoActualConsultas(Controller c) {
   }
   Utils.pulseEnterContinuar();
 }
+
 ///Pinta el estado actual de la cola
 void verLaColaEspera(Controller c) {
   if (c.getCola().isEmpty) {
@@ -61,6 +64,7 @@ void verLaColaEspera(Controller c) {
   }
   Utils.pulseEnterContinuar();
 }
+
 ///Libera la consulta que le pases
 Future<void> liberarConsulta(Controller c) async {
   stdout.write('Introduce el id de la consulta a liberar: ');
@@ -71,12 +75,16 @@ Future<void> liberarConsulta(Controller c) async {
     await Utils.mensajeDeEspera('Espere un momento');
     if (await c.saleConsulta(int.parse(id))) {
       print('Se ha liberado la consulta $id');
-    }else{
+      print(
+          'El paciente: ${c.consultas[int.parse(id)-1].paciente!.nombre} ${c.consultas[int.parse(id)-1].paciente!.apellidos} ya puede pasar');
+      print('Le atenderá ${c.consultas[int.parse(id)-1].medico.nombre}.');
+    } else {
       print('La consulta $id ya estaba liberada.');
     }
   }
   Utils.pulseEnterContinuar();
 }
+
 ///Maneja la peticion de datos del paciente al usuario y lo inserta en el sistema
 Future<void> admitirPaciente(Controller c) async {
   String dni = Utils.introduceString('Inserta el dni: ');
