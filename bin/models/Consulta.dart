@@ -1,20 +1,23 @@
-import 'Medico.dart';
-import 'Paciente.dart';
+import 'medico.dart';
+import 'paciente.dart';
 
-class Consulta {
+class Consulta{
   int id;
+  bool libre;
   Medico medico;
   Paciente? paciente;
-  bool libre;
 
-  Consulta({required this.id, required this.medico, this.paciente, required this.libre});
-  
-  factory Consulta.fromJson(Map<String, dynamic> json) => Consulta(
-    id: json['id'],
-    medico: Medico.fromJson(json['medico']),
-    paciente: Paciente.fromJson(json['paciente']),
+///Constructor de la clase
+  Consulta({required this.medico,this.paciente,required this.libre,required this.id});
+
+///Constructor nombrado que recibe un json y lo convierte en un objeto
+  factory Consulta.fromJson(Map<String,dynamic> json) => 
+  Consulta(
+    medico: Medico.fromJson(json['medico']), 
     libre: json['libre'],
-  );
+    paciente: (json['paciente']==null?null:Paciente.fromJson(json['paciente'])),
+    id: json['id']);
+
 
   @override
   String toString() {
@@ -22,13 +25,13 @@ class Consulta {
       return '''
                     	╔══════════════════════════════╣ Consulta $id ╠═══════════════════════════════╗  
                     	  --------------------------------------------------------------------------  
-                    	  Nombre del médico: ${medico.nombre}                              
+                    	  - Nombre del médico: ${medico.nombre}                              
                     	  --------------------------------------------------------------------------   
-                    	  Especialidad: ${medico.especialidad}    
+                    	  - Especialidad: ${medico.especialidad}    
                     	  --------------------------------------------------------------------------  
-                    	  Paciente: ${paciente!.nombre} ${paciente!.apellidos}                                         
+                    	  - Paciente: ${paciente!.nombre} ${paciente!.apellidos}                                         
                     	  --------------------------------------------------------------------------  
-                    	  Número historia: ${paciente!.numHistoria}                                        
+                    	  - Número historia: ${paciente!.numHistoria}                                        
                     	  --------------------------------------------------------------------------   
                     	╚════════════════════════════════════════════════════════════════════════════╝
 ''';
@@ -43,6 +46,5 @@ class Consulta {
                     	╚════════════════════════════════════════════════════════════════════════════╝
 ''';
     }
-    
-  }
+}
 }

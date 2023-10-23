@@ -1,0 +1,7 @@
+{
+  "endPoint": "https://centrosaludt1dart-default-rtdb.firebaseio.com/",
+  "pacientes": "pacientes.json",
+  "medicos": "medicos.json",
+  "curados": "curados.json",
+  "consultas": "consultas.json"
+}
