@@ -47,27 +47,30 @@ class ConsultaProvider {
   Future<List<Paciente>> getPacientes() async {
     ///Inicializo las consultas  y despues las recupero de firebase
     List<Paciente> listaPacientes = [];
-    Map<String, dynamic> pacientesMap =
-        jsonDecode((await get(Uri.parse(urlBase + pacientes))).body);
+    Response r = await get(Uri.parse(urlBase + pacientes));
 
-    pacientesMap.forEach((clave, paciente) {
-      listaPacientes.add(Paciente(
-          clave,
-          paciente['numhistoria'],
-          paciente['dni'],
-          paciente['nombre'],
-          paciente['apellidos'],
-          paciente['sintomas'],
-          paciente['fecha']));
-    });
+    if (r.body != 'null') {
+      Map<String, dynamic> pacientesMap = jsonDecode(r.body);
 
+      pacientesMap.forEach((clave, paciente) {
+        listaPacientes.add(Paciente(
+            clave,
+            paciente['numhistoria'],
+            paciente['dni'],
+            paciente['nombre'],
+            paciente['apellidos'],
+            paciente['sintomas'],
+            paciente['fecha']));
+      });
+    }
     return listaPacientes;
   }
 
   ///Elimino a un paciente determinado de la base de datos
-  void eliminaPaciente(Paciente paciente) {
-    delete(Uri.parse('$urlBase/pacientes/${paciente.id}.json'));
-    post(Uri.parse('$urlBase$curados'), body: jsonEncode(paciente.toJson()));
+  Future<void> eliminaPaciente(Consulta c, Paciente paciente) async {
+    await delete(Uri.parse('${urlBase}pacientes/${paciente.id}.json'));
+    await post(Uri.parse('$urlBase$curados'),
+        body: jsonEncode(c.paciente!.toJson()));
   }
 
   ///Inserta un nuevo paciente en la base de datos
@@ -82,31 +85,39 @@ class ConsultaProvider {
       medicos.firstWhere((medico) => medico.id == id);
 
   ///Inserta una nueva consulta en la base de datos
-  void limpiaConsulta(Consulta c) {
-    delete(Uri.parse('$urlBase/consultas/Consulta${c.id}/paciente.json'));
+  Future<void> limpiaConsulta(Consulta c) async {
+    await put(Uri.parse('$urlBase/consultas/Consulta${c.id}.json'),
+        body: jsonEncode(c));
   }
 
   ///Inserta una nueva consulta en la base de datos
-  void insertaPacienteConsulta(Consulta c, Paciente p) {
-    put(Uri.parse('$urlBase/consultas/Consulta${c.id}/paciente.json'),
-        body: jsonEncode(p.toJson()));
+  Future<void> insertaPacienteConsulta(Consulta c) async {
+    await put(Uri.parse('$urlBase/consultas/Consulta${c.id}.json'),
+        body: jsonEncode(c.toJson()));
   }
 
   ///Inserta una nueva consulta en la base de datos
   Future<List<Paciente>> getPacientesCurados() async {
     List<Paciente> listaPacientes = [];
-    Map<String, dynamic> pacientesMap =
-        jsonDecode((await get(Uri.parse(urlBase + curados))).body);
-    pacientesMap.forEach((clave, paciente) {
-      listaPacientes.add(Paciente(
-          clave,
-          paciente['numhistoria'],
-          paciente['dni'],
-          paciente['nombre'],
-          paciente['apellidos'],
-          paciente['sintomas'],
-          paciente['fecha']));
-    });
+    Response r = await get(Uri.parse(urlBase + curados));
+    if (r.body != 'null') {
+      Map<String, dynamic> pacientesMap = jsonDecode(r.body);
+      pacientesMap.forEach((clave, paciente) {
+        listaPacientes.add(Paciente(
+            clave,
+            paciente['numhistoria'],
+            paciente['dni'],
+            paciente['nombre'],
+            paciente['apellidos'],
+            paciente['sintomas'],
+            paciente['fecha']));
+      });
+    }
     return listaPacientes;
+  }
+
+  Future<void> insertaPacienteCurado(Paciente paciente) async {
+    await post(Uri.parse('$urlBase$curados'),
+        body: jsonEncode(paciente.toJson()));
   }
 }

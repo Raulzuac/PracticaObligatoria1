@@ -1,27 +1,42 @@
 import 'medico.dart';
 import 'paciente.dart';
 
-class Consulta{
+class Consulta {
   int id;
   bool libre;
   Medico medico;
   Paciente? paciente;
 
-///Constructor de la clase
-  Consulta({required this.medico,this.paciente,required this.libre,required this.id});
-
-///Constructor nombrado que recibe un json y lo convierte en un objeto
-  factory Consulta.fromJson(Map<String,dynamic> json) => 
+  ///Constructor de la clase
   Consulta(
-    medico: Medico.fromJson(json['medico']), 
-    libre: json['libre'],
-    paciente: (json['paciente']==null?null:Paciente.fromJson(json['paciente'])),
-    id: json['id']);
+      {required this.medico,
+      this.paciente,
+      required this.libre,
+      required this.id});
 
+  ///Constructor nombrado que recibe un json y lo convierte en un objeto
+  factory Consulta.fromJson(Map<String, dynamic> json) => Consulta(
+      medico: Medico.fromJson(json['medico']),
+      libre: json['libre'],
+      paciente: (json['paciente'] == null
+          ? null
+          : Paciente.fromJson(json['paciente'])),
+      id: json['id']);
+
+  Map<String, dynamic> toJson() {
+    return paciente == null
+        ? {"id": id, "libre": libre, "medico": medico.toJson()}
+        : {
+            "id": id,
+            "libre": libre,
+            "medico": medico.toJson(),
+            "paciente": paciente!.toJson(),
+          };
+  }
 
   @override
   String toString() {
-    if(paciente!=null){
+    if (paciente != null) {
       return '''
                     	╔══════════════════════════════╣ Consulta $id ╠═══════════════════════════════╗  
                     	  --------------------------------------------------------------------------  
@@ -35,8 +50,8 @@ class Consulta{
                     	  --------------------------------------------------------------------------   
                     	╚════════════════════════════════════════════════════════════════════════════╝
 ''';
-    }else{
-       return '''
+    } else {
+      return '''
                     	╔══════════════════════════════╣ Consulta $id ╠═══════════════════════════════╗  
                     	  --------------------------------------------------------------------------  
                     	  Nombre del médico: ${medico.nombre}                              
@@ -46,5 +61,5 @@ class Consulta{
                     	╚════════════════════════════════════════════════════════════════════════════╝
 ''';
     }
-}
+  }
 }

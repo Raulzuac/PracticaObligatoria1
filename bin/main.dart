@@ -15,10 +15,10 @@ void main(List<String> args) async {
     opt = stdin.readLineSync() ?? '';
     switch (opt) {
       case "1":
-        admitirPaciente(c);
+        await admitirPaciente(c);
         break;
       case "2":
-        liberarConsulta(c);
+        await liberarConsulta(c);
         break;
       case "3":
         verLaColaEspera(c);
@@ -59,29 +59,33 @@ void verLaColaEspera(Controller c) {
   Utils.pulseEnterContinuar();
 }
 
-void liberarConsulta(Controller c) {
+Future<void> liberarConsulta(Controller c) async {
   stdout.write('Introduce el id de la consulta a liberar: ');
   String id = stdin.readLineSync() ?? '';
-  if (id != '1' || id != '2' || id != '3' || id != '4') {
+  if (id != '1' && id != '2' && id != '3' && id != '4') {
     print('Esa consulta no existe, intentalo de nuevo.');
   } else {
-    Utils.mensajeDeEspera('Espere un momento');
-    if (c.liberaConsulta(int.parse(id))) {
+    await Utils.mensajeDeEspera('Espere un momento');
+    if (await c.saleConsulta(int.parse(id))) {
       print('Se ha liberado la consulta $id');
+    }else{
+      print('La consulta $id ya estaba liberada.');
     }
   }
   Utils.pulseEnterContinuar();
 }
 
-void admitirPaciente(Controller c) async {
+Future<void> admitirPaciente(Controller c) async {
   String dni = Utils.introduceString('Inserta el dni: ');
   String nombre = Utils.introduceString('Inserta el nombre: ');
   String apellidos = Utils.introduceString('Inserta los apellidos: ');
   String sintomas = Utils.introduceString('Inserta los sintomas: ');
-  int i = await c.insertaPaciente(dni, nombre, apellidos, sintomas);
-  Utils.mensajeDeEspera('Espere un momento');
+  int i = await (c.insertaPaciente(dni, nombre, apellidos, sintomas));
+
+  await Utils.mensajeDeEspera('Espere un momento');
+  print('');
   print(i == -1
       ? 'No hay ninguna consulta libre, deberá esperar su turno, su posición en la cola es ${c.pacientesCola.length}.'
-      : 'Se le ha asignado la consulta $i ya puede pasar.Le atenderá ${c.consultas[i].medico.nombre}.');
+      : 'Se le ha asignado la consulta $i ya puede pasar.Le atenderá ${c.consultas[i - 1].medico.nombre}.');
   Utils.pulseEnterContinuar();
 }

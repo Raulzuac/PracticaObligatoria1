@@ -14,6 +14,12 @@ class Medico {
   factory Medico.fromJson(Map<String, dynamic> json) =>
       Medico(json['id'], json['nombre'], json['especialidad']);
 
+  Map<String, dynamic> toJson() => {
+        "especialidad": especialidad,
+        "id": id,
+        "nombre": nombre,
+      };
+
   @override
   String toString() {
     return '''
