@@ -1,0 +1,7 @@
+{
+  "endPoint": "https://consulta-3682d-default-rtdb.europe-west1.firebasedatabase.app/",
+  "pacientes": "pacientes.json",
+  "medicos": "medicos.json",
+  "curados": "curados.json",
+  "consultas": "consultas.json"
+}
