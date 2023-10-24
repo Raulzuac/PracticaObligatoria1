@@ -2,7 +2,7 @@ import 'package:intl/intl.dart';
 //Utilidades para los menús
 class Menus {
   ///Gestiona el menú principal
-  static String menuPrincipal(
+  static String menuPrincipal(int numMedicos,
       int consultasLibres, int pacientesCola, int pacientesCurados) {
     String fecha = DateFormat('dd/MM/yyyy HH:mm:ss').format(DateTime.now());
     String mensajeConsultas = pacientesCola == 0
@@ -13,6 +13,7 @@ class Menus {
                             ╔════════════════════════════════╣ Centro de Salud ╠════════════════════════════════╗
                             ║░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░╚═════════════════╝░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░║ 
                             ║  Bienvenido al sistema de gestión del centro de salud                             ║ 
+                            ║  En este momento hay $numMedicos médicos en el sistema                                      ║ 
                             ║  Actualmente $mensajeConsultas                                              ║ 
                             ║  Los pacientes en cola son: ${_alignLeft(pacientesCola.toString(), 4)}                                                  ║ 
                             ║  Los pacientes curados son: ${_alignLeft(pacientesCurados.toString(), 4)}                                                  ║ 
@@ -22,7 +23,7 @@ class Menus {
                             ║ -------------------------------------------------------------------------------   ║
                             ╠═══════════════════════════════════════════════════════════════════════════════════╣
                             ║  -------------------------------------------------------------------------------  ║  
-                            ║  [1] Admision de un paciente                                                      ║
+                            ║  [1] Admisión de un paciente                                                      ║
                             ║  -------------------------------------------------------------------------------  ║  
                             ║  [2] Liberar una consulta                                                         ║
                             ║  -------------------------------------------------------------------------------  ║ 

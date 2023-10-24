@@ -13,7 +13,7 @@ void main(List<String> args) async {
   Controller c = await nuevoController();
   do {
     //Menu de la app
-    print(Menus.menuPrincipal(c.consultasLibres(), c.pacientesCola.length,
+    print(Menus.menuPrincipal(c.consultas.length,c.consultasLibres(), c.pacientesCola.length,
         c.pacientesCurados.length));
     stdout.write('Introduce una opción: ');
     opt = stdin.readLineSync() ?? '';

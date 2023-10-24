@@ -32,13 +32,7 @@ class ConsultaProvider {
         jsonDecode((await get(Uri.parse(urlBase + consultas))).body);
     consultasMap.forEach((clave, consulta) {
       //Lo añado a la lista de consultas
-      listaConsultas.add(Consulta(
-          medico: Medico.fromJson(consulta['medico']),
-          paciente: (consulta['paciente'] == null
-              ? null
-              : Paciente.fromJson(consulta['paciente'])),
-          libre: consulta['libre'],
-          id: consulta['id']));
+      listaConsultas.add(Consulta.fromJson(consulta));
     });
     return listaConsultas;
   }
@@ -53,14 +47,7 @@ class ConsultaProvider {
       Map<String, dynamic> pacientesMap = jsonDecode(r.body);
 
       pacientesMap.forEach((clave, paciente) {
-        listaPacientes.add(Paciente(
-            clave,
-            paciente['numhistoria'],
-            paciente['dni'],
-            paciente['nombre'],
-            paciente['apellidos'],
-            paciente['sintomas'],
-            paciente['fecha']));
+        listaPacientes.add(Paciente.fromJson(paciente));
       });
     }
     return listaPacientes;
@@ -103,14 +90,7 @@ class ConsultaProvider {
     if (r.body != 'null') {
       Map<String, dynamic> pacientesMap = jsonDecode(r.body);
       pacientesMap.forEach((clave, paciente) {
-        listaPacientes.add(Paciente(
-            clave,
-            paciente['numhistoria'],
-            paciente['dni'],
-            paciente['nombre'],
-            paciente['apellidos'],
-            paciente['sintomas'],
-            paciente['fecha']));
+        listaPacientes.add(Paciente.fromJson(paciente));
       });
     }
     return listaPacientes;

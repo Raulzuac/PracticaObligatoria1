@@ -77,7 +77,7 @@ class Controller {
             pacientesCola.any((paciente) => paciente.numHistoria != id)) &&
         (pacientesCurados.isEmpty ||
             pacientesCurados.any((paciente) => paciente.numHistoria != id)) &&
-        consultas.any((consulta) => (consulta.paciente != null &&
+        consultas.any((consulta) => (consulta.paciente == null ||
             consulta.paciente!.numHistoria != id)));
   }
 
